@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>ログイン</h2>
+{% include 'registration/snippets/form.html' with value_name='ログイン' %}
+<hr>
+<p><a href="{% url 'password_reset' %}">パスワードを忘れた場合</a></p>
+
+{% endblock content %}

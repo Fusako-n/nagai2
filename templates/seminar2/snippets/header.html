@@ -1,0 +1,16 @@
+<nav class="navbar bg-dark border-bottom border-bottom-dark" data-bs-theme="dark">
+    <div class="container d-flex flex-wrap">
+        <ul class="nav me-auto">
+            <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">About</a></li>
+        </ul>
+        <ul class="nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link link-body-emphasis px-2">ログアウト</a></li>
+            {% else %}
+            <li class="nav-item"><a href="{% url 'login' %}" class="nav-link link-body-emphasis px-2">ログイン</a></li>
+            <li class="nav-item"><a href="{% url 'seminar2:signup' %}" class="nav-link link-body-emphasis px-2">新規登録</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

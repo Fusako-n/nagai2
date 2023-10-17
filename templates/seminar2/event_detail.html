@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+{% include 'seminar2/snippets/header.html' %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h2>{{ event.name }}</h2>
+            <div>{{ event.host }}</div>
+            <div class="small mb-1">{{ event.category.name }}</div>
+            <figure class="mb-4"><img class="img-fluid rounded" src="{{ event.image.url }}" alt=""></figure>
+            <p class="fs-5 mb-4">{{ event.description }}</p>
+            <p>会費：{{ event.fee|intcomma }}円</p>
+            <p>定員：{{ event.capacity }}人</p>
+            <p>会場：{{ event.venue }}</p>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">セミナー申し込みの欄</div>
+                    <div class="card-body">
+                        <div class="row"></div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock content %}
