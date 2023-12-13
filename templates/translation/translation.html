@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'header.html' %}
+<div class="container my-5">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">{{ form.text_ja.label_tag }}</label>
+            {{ form.text_ja }}
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">翻訳</button>
+    <hr>
+    <div class="mb-3">
+        <label for="Textarea" class="form-label">翻訳の結果（英語）:</label>
+        <textarea class="form-control" name="text_en" id="Textarea" rows="8">{{ text_en }}</textarea>
+    </div>
+    <button type="" class="btn btn-primary mb-3">保存</button>
+    <button type="" class="btn btn-secondary mb-3">やり直す</button>
+</div>
+
+{% endblock content %}

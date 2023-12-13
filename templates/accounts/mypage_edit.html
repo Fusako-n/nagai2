@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'header.html' %}
+
+<div class="container mt-5">
+    <div class="row">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'users:mypage' user.pk %}">マイページ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">マイページ編集</li>
+            </ol>
+        </nav>
+        <h2>マイページ編集</h2>
+        <hr>
+        <form class="row g-3" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="fieldWrapper col-md-12">
+                {{ form.username.label_tag }}
+                {{ form.username}}
+            </div>
+            <div class="fieldWrapper col-md-12">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+            <div class="col-12">
+            <input type="submit" value="更新" class="btn btn-secondary">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="text-center mt-5">
+        <h1>TOP PAGE</h1>
+        <p class="lead">A complete project boilerplate built with Bootstrap</p>
+    </div>
+</div>
+<hr>
+<div class="text-center mt-5">
+    <a href="{% url 'users:login' %}" class="btn btn-primary">ログイン</a>
+    <a href="{% url 'users:signup' %}" class="btn btn-primary">新規登録</a>
+</div>
+{% endblock content %}
