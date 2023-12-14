@@ -1,11 +1,12 @@
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse, reverse_lazy
 
 from .forms import SignupForm, LoginForm, MypageEditForm
+from translation.models import Translation
 
 
 CustomUser = get_user_model()
@@ -30,13 +31,13 @@ class LoginView(LoginView):
     template_name = 'accounts/login.html'
 
 
-class MypageView(LoginRequiredMixin, DetailView):
+class MypageView(LoginRequiredMixin, ListView):
     model = CustomUser
     template_name = 'accounts/mypage.html'
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
+        context['translated'] = Translation.objects.filter(user=self.request.user)
         return context
 
 

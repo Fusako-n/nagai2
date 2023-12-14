@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
+from django.contrib import messages
 from django.views.generic import TemplateView
 import deepl
 
@@ -20,7 +21,9 @@ def translation(request):
             text_ja = form.cleaned_data['text_ja']
             text_en = translator.translate_text(text_ja, target_lang="EN-US")
             data = Translation(text_ja=text_ja, text_en=text_en, user=request.user)
-            data.save()
+            if 'save' in request.POST:
+                data.save()
+                messages.info(request, '翻訳を保存しました')
     else:
         form = TranslationForm()
     context = {'form': form, 'text_en': text_en}
@@ -32,7 +35,7 @@ def speech(request):
     import subprocess
     
     #保存PATH
-    source = 'ファイルがアップロードされるpath' 
+    source = 'media'  # ファイルがアップロードされるpath
 
     #GCS_URL
     GCS_BASE = 'gs://cloud-samples-data/speech/brooklyn_bridge.raw'   

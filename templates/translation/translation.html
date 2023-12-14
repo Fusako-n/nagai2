@@ -2,6 +2,13 @@
 
 {% block content %}
 {% include 'header.html' %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
 <div class="container my-5">
     <form method="POST">
         {% csrf_token %}
@@ -13,10 +20,19 @@
     <hr>
     <div class="mb-3">
         <label for="Textarea" class="form-label">翻訳の結果（英語）:</label>
-        <textarea class="form-control" name="text_en" id="Textarea" rows="8">{{ text_en }}</textarea>
+        <textarea class="form-control" name="text_en" id="Textarea2" rows="8">{{ text_en }}</textarea>
     </div>
-    <button type="" class="btn btn-primary mb-3">保存</button>
-    <button type="" class="btn btn-secondary mb-3">やり直す</button>
+
+    <script>
+        function clearText() {
+            for (let i=1; i<3; ++i) {
+                textForm = document.getElementById("Textarea"+i);
+                textForm.value = '';}
+        }
+    </script>
+    <button type="submit" name="save" class="btn btn-primary mb-3">保存</button>
+    <input type="button" value="クリア" id="Textarea2" class="btn btn-secondary mb-3" onClick="clearText()">
+    </form>
 </div>
 
 {% endblock content %}

@@ -8,7 +8,7 @@ class TranslationForm(forms.Form):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['text_ja'].widget = forms.Textarea(attrs={'class': 'form-control'})
+        self.fields['text_ja'].widget = forms.Textarea(attrs={'class': 'form-control', 'id': 'Textarea1'})
 
 
 class UploadForm(forms.ModelForm):

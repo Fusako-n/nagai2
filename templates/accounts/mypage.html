@@ -13,28 +13,30 @@
 <div class="container my-5">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'translation:translation' %}">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">マイページ</li>
         </ol>
     </nav>
     <h2>{{ user }}さんのページ</h2>
     <hr>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-9 mt-5">
-                <ul class="list-group">
-                    <li class="list-group-item">名前：{{ user.username }}</li>
-                    <li class="list-group-item">メールアドレス：{{ user.email }}</li>
-                </ul>
-                <br>
-                <a class="btn btn-secondary" href="{% url 'users:mypage_edit' user.pk %}" role="button">編集する</a>
-            </div>
+    <div class="container my-3">
+        <div class="col-md-12 mt-5">
+            <ul class="list-group">
+                <li class="list-group-item">名前：{{ user.username }}</li>
+                <li class="list-group-item">メールアドレス：{{ user.email }}</li>
+            </ul>
+            <br>
+            <a class="btn btn-secondary mb-3" href="{% url 'users:mypage_edit' user.pk %}" role="button">編集する</a>
         </div>
     </div>
-    <br>
-    <h4>保存した翻訳リスト</h4>
     <hr>
-    <ul class="list-group">
+    <h4>保存した翻訳リスト</h4>
+    {% for text in translated %}
+    <ul class="list-group list-group-horizontal">
+        
+        <li class="list-group-item col-md-6">{{ text.text_ja }}</li>
+        <li class="list-group-item col-md-6">{{ text.text_en }}</li>
+        
     </ul>
-
+    {% endfor %}
 {% endblock content %}
