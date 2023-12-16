@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'translation.apps.TranslationConfig',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'google.cloud',
+    'google.cloud.speech_v1p1beta1',
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -145,3 +147,5 @@ MESSAGE_TAGS = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#GOOGLE_APPLICATION_CREDENTIALS = BASE_DIR / 'credentials' / 'credentials.json'

@@ -6,13 +6,15 @@ class Translation(models.Model):
     user = models.ForeignKey(get_user_model(), verbose_name='ユーザー', on_delete=models.CASCADE)
     text_ja = models.TextField(verbose_name='テキスト日本語')
     text_en = models.TextField(verbose_name='テキスト英語')
+    audio_file = models.FileField(upload_to='media/')
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.text_ja[:20]
 
 
-class Upload(models.Model):
-    user = models.ForeignKey(get_user_model(), verbose_name='ユーザー', on_delete=models.CASCADE)
-    text = models.FileField(upload_to='media')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+# class Transcription(models.Model):
+#     user = models.ForeignKey(get_user_model(), verbose_name='ユーザー', on_delete=models.CASCADE)
+#     audio_file = models.FileField(upload_to='media/')
+#     transcription_text = models.TextField()
+#     uploaded_at = models.DateTimeField(auto_now_add=True)

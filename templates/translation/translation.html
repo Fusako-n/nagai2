@@ -1,5 +1,33 @@
 {% extends 'base.html' %}
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // ボタンが押されてフォームが送信された時の処理
+    $('#transcriptionForm').submit(function(event) {
+      // ページがリロードされるのを防ぐ
+      event.preventDefault();
+      // FormDataオブジェクトを作成
+      var formData = new FormData(this);
+      // 音声ファイルをサーバーに送信して結果を取得
+      $.ajax({
+        url: "{% url 'translation:save_transcription' %}",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          // 結果を表示
+          $("#result").html(response);
+        },
+        error: function(error){
+          console.log(error);
+        }
+      });
+    });
+  });
+</script>
+
 {% block content %}
 {% include 'header.html' %}
 
@@ -10,29 +38,31 @@
 {% endif %}
 
 <div class="container my-5">
-    <form method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label class="form-label">{{ form.text_ja.label_tag }}</label>
-            {{ form.text_ja }}
-        </div>
-        <button type="submit" class="btn btn-primary mb-3">翻訳</button>
-    <hr>
-    <div class="mb-3">
-        <label for="Textarea" class="form-label">翻訳の結果（英語）:</label>
-        <textarea class="form-control" name="text_en" id="Textarea2" rows="8">{{ text_en }}</textarea>
-    </div>
+  <form id="transcriptionForm" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn btn-success my-2">文字にして翻訳する</button>
+  <hr>
+
+  <div class="my-3" id="result">
+    <br>
+    <p><b>文字にした結果（日本語）：</b></p>
+    <textarea class="form-control" name="text_en" id="Textarea1" rows="8">{{ text_ja }}</textarea>
+    <br>
+    <p><b>翻訳の結果（英語）：</b></p>
+    <textarea class="form-control" name="text_en" id="Textarea2" rows="8">{{ text_en }}</textarea>
+  </div>
 
     <script>
-        function clearText() {
-            for (let i=1; i<3; ++i) {
-                textForm = document.getElementById("Textarea"+i);
-                textForm.value = '';}
-        }
+      function clearText() {
+          for (let i=1; i<3; ++i) {
+              textForm = document.getElementById("Textarea"+i);
+              textForm.value = '';}
+      }
     </script>
-    <button type="submit" name="save" class="btn btn-primary mb-3">保存</button>
-    <input type="button" value="クリア" id="Textarea2" class="btn btn-secondary mb-3" onClick="clearText()">
-    </form>
+  <button type="submit" name="save" class="btn btn-primary mb-3">保存</button>
+  <input type="button" value="クリア" id="Textarea2" class="btn btn-secondary mb-3" onClick="clearText()">
+  </form>
 </div>
 
 {% endblock content %}

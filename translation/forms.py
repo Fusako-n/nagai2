@@ -1,6 +1,5 @@
 from django import forms
 
-from .models import Upload
 
 
 class TranslationForm(forms.Form):
@@ -11,7 +10,9 @@ class TranslationForm(forms.Form):
         self.fields['text_ja'].widget = forms.Textarea(attrs={'class': 'form-control', 'id': 'Textarea1'})
 
 
-class UploadForm(forms.ModelForm):
-    class Meta:
-        model = Upload
-        fields = ['text']
+class TranscriptionForm(forms.Form):
+    audio_file = forms.FileField(label='音声データをアップロード')
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['audio_file'].widget.attrs['class'] = 'form-control'
