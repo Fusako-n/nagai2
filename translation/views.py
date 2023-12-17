@@ -42,50 +42,50 @@ def save_transcription(request):
         if form.is_valid():
             audio_data = form.cleaned_data['audio_file'].read()
         
-        # Speech-to-Text APIを設定
-        client = speech.SpeechClient()
+            # Speech-to-Text APIを設定
+            client = speech.SpeechClient()
 
-        # Speech-to-Text APIに渡すRecognitionAudioを設定
-        audio = speech.RecognitionAudio(content=audio_data)
+            # Speech-to-Text APIに渡すRecognitionAudioを設定
+            audio = speech.RecognitionAudio(content=audio_data)
 
-        # RecognitionConfigを設定
-        config = speech.RecognitionConfig(
-            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-            sample_rate_hertz=44100,
-            language_code='ja-JP',
-            enable_automatic_punctuation=True,
-        )
+            # RecognitionConfigを設定
+            config = speech.RecognitionConfig(
+                encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+                sample_rate_hertz=44100,
+                language_code='ja-JP',
+                enable_automatic_punctuation=True,
+            )
 
-        # Speech-to-Text APIで音声をテキストに変換
-        response = client.recognize(config=config, audio=audio)
+            # Speech-to-Text APIで音声をテキストに変換
+            response = client.recognize(config=config, audio=audio)
 
-        # 翻訳用にテキストを取り出す
-        transcriptions = [result.alternatives[0].transcript for result in response.results]
-        text_to_translate = ' '.join(transcriptions)
+            # 翻訳用にテキストを取り出す
+            transcriptions = [result.alternatives[0].transcript for result in response.results]
+            text_to_translate = ' '.join(transcriptions)
 
-        # DeepL APIでテキストを翻訳
-        deepl_api_key = settings.DEEPL_AUTH_KEY
-        deepl_api_url = 'https://api-free.deepl.com/v2/translate'
-        params = {
-            'auth_key': deepl_api_key,
-            'text': text_to_translate,
-            'source_lang': 'ja',
-            'target_lang': 'en',
-        }
-        translation_response = requests.post(deepl_api_url, data=params)
-        translated_text = translation_response.json()['translations'][0]['text']
-        
-        data = Translation(text_ja=text_to_translate, text_en=translated_text, user=request.user)
-        if 'save' in request.POST:
-            data.save()
-            messages.info(request, '翻訳を保存しました')
+            # DeepL APIでテキストを翻訳
+            deepl_api_key = settings.DEEPL_AUTH_KEY
+            deepl_api_url = 'https://api-free.deepl.com/v2/translate'
+            params = {
+                'auth_key': deepl_api_key,
+                'text': text_to_translate,
+                'source_lang': 'ja',
+                'target_lang': 'en',
+            }
+            translation_response = requests.post(deepl_api_url, data=params)
+            translated_text = translation_response.json()['translations'][0]['text']
+            
+            data = Translation(text_ja=text_to_translate, text_en=translated_text, user=request.user)
+            if 'save' in request.POST:
+                data.save()
+                messages.info(request, '翻訳を保存しました')
 
-        context = {
-            'text_ja': text_to_translate,
-            'text_en': translated_text,
-        }
+            context = {
+                'text_ja': text_to_translate,
+                'text_en': translated_text,
+            }
 
-        return render(request, 'translation/translation.html', context)
+            return render(request, 'translation/translation.html', context)
 
     else:
         form = TranscriptionForm()
