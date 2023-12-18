@@ -11,10 +11,3 @@ class Translation(models.Model):
     
     def __str__(self):
         return self.text_ja[:20]
-
-
-# class Transcription(models.Model):
-#     user = models.ForeignKey(get_user_model(), verbose_name='ユーザー', on_delete=models.CASCADE)
-#     audio_file = models.FileField(upload_to='media/')
-#     transcription_text = models.TextField()
-#     uploaded_at = models.DateTimeField(auto_now_add=True)

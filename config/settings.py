@@ -33,10 +33,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'translation.apps.TranslationConfig',
-    'django.contrib.sites',
-    'django.contrib.flatpages',
     'google.cloud',
     'google.cloud.speech_v1p1beta1',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'

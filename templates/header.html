@@ -1,18 +1,8 @@
-{% load flatpages %}
-{% get_flatpages as flatpages %}
-
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'translation:save_transcription' %}">Home</a>
-
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    {% for page in flatpages %}
-                    <a class="nav-link" href="{{ page.url }}">{{ page.title }}</a>
-                    {% endfor %}
-                </li>
-
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user }}さん</a>

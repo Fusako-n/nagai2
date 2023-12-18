@@ -7,8 +7,14 @@
     $('#transcriptionForm').submit(function(event) {
       // ページがリロードされるのを防ぐ
       event.preventDefault();
-      // FormDataオブジェクトを作成
-      var formData = new FormData(this);
+      // 日本語テキストを取り出す
+      let textJa = $('textarea[name="text_ja"]').val();
+      // 英語テキストを取り出す
+      let textEn = $('textarea[name="text_en"]').val();
+      // FormDataのオブジェクトを作成
+      let formData = new FormData(this);
+      formData.append('text_ja', textJa);
+      formData.append('text_en', textEn);
       // 音声ファイルをサーバーに送信して結果を取得
       $.ajax({
         url: "{% url 'translation:save_transcription' %}",
@@ -40,8 +46,9 @@
 <div class="container my-5">
   <form id="transcriptionForm" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form }}
+    {{ form.audio_file }}
     <button type="submit" class="btn btn-success my-2">文字にして翻訳する</button>
+  </form>
   <hr>
 
   <div class="my-3" id="result">
@@ -53,6 +60,12 @@
     <textarea class="form-control" name="text_en" id="Textarea2" rows="8">{{ text_en }}</textarea>
   </div>
 
+  {% if text_ja and text_en %}
+  <form id="translationSaveForm" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="text_ja" value="{{ text_ja }}">
+    <input type="hidden" name="text_en" value="{{ text_en }}">
+
     <script>
       function clearText() {
           for (let i=1; i<3; ++i) {
@@ -60,9 +73,11 @@
               textForm.value = '';}
       }
     </script>
-  <button type="submit" name="save" class="btn btn-primary mb-3">保存</button>
-  <input type="button" value="クリア" id="Textarea2" class="btn btn-secondary mb-3" onClick="clearText()">
+
+    <button type="submit" name="save" class="btn btn-primary mb-3">保存</button>
+    <input type="button" value="クリア" id="Textarea2" class="btn btn-secondary mb-3" onClick="clearText()">
   </form>
+  {% endif %}
 </div>
 
 {% endblock content %}
